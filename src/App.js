@@ -9,24 +9,29 @@ class App extends React.Component {
 
   state = {
     data: {},
-
+    country: '',
   }
 
-  async componentDidMount(){
-    const fetcheData = await fetchData();
-    this.setState({data: fetcheData})
+  async componentDidMount(  ){
+    const fetchedData = await fetchData();
+    this.setState({data: fetchedData})
   }
 
+  handleCountryChange = async (country) => {
+    const fetchedData = await fetchData(country); 
+    console.log(fetchedData);
+    this.setState({data: fetchedData, country: country })
+  }
   render(){
 
-    const { data } = this.state;
+    const { data, country } = this.state;
 
     return (
     <div className={styles.container}>
-      <h1>App</h1>
+      <h2>My Covid Tracker</h2>
       <Cards data= {data}/>
-      <CountryPicker/>
-      <Charts/>
+      <CountryPicker handleCountryChange={this.handleCountryChange}/>
+      <Charts data= {data} country={country} />
     </div>
   );
   } 
